@@ -1,5 +1,4 @@
 package ifmo.webservices;
-
 import javax.xml.ws.Endpoint;
 
 public class App {

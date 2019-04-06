@@ -41,8 +41,8 @@ public class WebServiceClient {
 
             while (true) {
 
-                printMenu();
-                processOption(in);
+                    printMenu();
+                    processOption(in);
             }
 
         } catch (MalformedURLException ex) {

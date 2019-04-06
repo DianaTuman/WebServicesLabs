@@ -1,3 +1,4 @@
+
 package ifmo.webservices;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,9 +9,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for characterCondition complex type.
- *
+ * 
  * <p>The following schema fragment specifies the expected         content contained within this class.
- *
+ * 
  * <pre>
  * &lt;complexType name="characterCondition"&gt;
  *   &lt;complexContent&gt;
@@ -22,17 +23,17 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "characterCondition", propOrder = {
-        "field", "value"
+    "field", "value"
 })
 public class CharacterFieldValue {
 
     @XmlSchemaType(name = "string")
     protected Field field;
-    @XmlSchemaType(name = "string")
-    protected Object value;
 
     public CharacterFieldValue(Field field, Object value) {
         this.field = field;
@@ -42,11 +43,16 @@ public class CharacterFieldValue {
     public CharacterFieldValue() {
     }
 
+    @XmlSchemaType(name = "string")
+    protected Object value;
+
     /**
      * Gets the value of the field property.
-     *
-     * @return possible object is
-     * {@link Field }
+     * 
+     * @return
+     *     possible object is
+     *     {@link Field }
+     *     
      */
     public Field getField() {
         return field;
@@ -54,9 +60,11 @@ public class CharacterFieldValue {
 
     /**
      * Sets the value of the field property.
-     *
-     * @param value allowed object is
-     *              {@link Field }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Field }
+     *     
      */
     public void setField(Field value) {
         this.field = value;

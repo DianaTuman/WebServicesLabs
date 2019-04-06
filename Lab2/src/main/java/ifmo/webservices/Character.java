@@ -1,3 +1,4 @@
+
 package ifmo.webservices;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -9,9 +10,9 @@ import java.util.Objects;
 
 /**
  * <p>Java class for character complex type.
- *
+ * 
  * <p>The following schema fragment specifies the expected         content contained within this class.
- *
+ * 
  * <pre>
  * &lt;complexType name="character"&gt;
  *   &lt;complexContent&gt;
@@ -28,30 +29,19 @@ import java.util.Objects;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "character", propOrder = {
         "race",
-        "id",
-        "name",
+    "id",
+    "name",
         "hp",
         "heroClass",
         "level"
 })
 public class Character {
-    @XmlElement(name = "race", required = true)
-    protected String race;
-    @XmlElement(name = "id", required = true)
-    protected int id;
-    @XmlElement(name = "name", required = true)
-    protected String name;
-    @XmlElement(name = "hp", required = true)
-    protected int hp;
-    @XmlElement(name = "heroClass", required = true)
-    protected String heroClass;
-    @XmlElement(name = "level", required = true)
-    protected int level;
-
     public Character(String race, int id, String name, int hp, String heroClass, int level) {
         this.race = race;
         this.id = id;
@@ -65,11 +55,31 @@ public class Character {
 
     }
 
+    @XmlElement(name = "race", required = true)
+    protected String race;
+
+    @XmlElement(name = "id", required = true)
+    protected int id;
+
+    @XmlElement(name = "name", required = true)
+    protected String name;
+
+    @XmlElement(name = "hp", required = true)
+    protected int hp;
+
+    @XmlElement(name = "heroClass", required = true)
+    protected String heroClass;
+
+    @XmlElement(name = "level", required = true)
+    protected int level;
+
     /**
      * Gets the value of the race property.
-     *
-     * @return possible object is
-     * {@link String }
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getRace() {
         return race;
@@ -77,9 +87,11 @@ public class Character {
 
     /**
      * Sets the value of the race property.
-     *
-     * @param value allowed object is
-     *              {@link String }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setRace(String value) {
         this.race = value;
@@ -87,6 +99,7 @@ public class Character {
 
     /**
      * Gets the value of the id property.
+     * 
      */
     public int getId() {
         return id;
@@ -94,6 +107,7 @@ public class Character {
 
     /**
      * Sets the value of the id property.
+     * 
      */
     public void setId(int value) {
         this.id = value;
@@ -101,9 +115,11 @@ public class Character {
 
     /**
      * Gets the value of the name property.
-     *
-     * @return possible object is
-     * {@link String }
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getName() {
         return name;
@@ -111,9 +127,11 @@ public class Character {
 
     /**
      * Sets the value of the name property.
-     *
-     * @param value allowed object is
-     *              {@link String }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setName(String value) {
         this.name = value;
@@ -121,6 +139,7 @@ public class Character {
 
     /**
      * Gets the value of the hp property.
+     * 
      */
     public int getHp() {
         return hp;
@@ -128,6 +147,7 @@ public class Character {
 
     /**
      * Sets the value of the hp property.
+     * 
      */
     public void setHp(int value) {
         this.hp = value;
@@ -135,9 +155,11 @@ public class Character {
 
     /**
      * Gets the value of the heroClass property.
-     *
-     * @return possible object is
-     * {@link String }
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getHeroClass() {
         return heroClass;
@@ -145,9 +167,11 @@ public class Character {
 
     /**
      * Sets the value of the heroClass property.
-     *
-     * @param value allowed object is
-     *              {@link String }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setHeroClass(String value) {
         this.heroClass = value;
@@ -155,6 +179,7 @@ public class Character {
 
     /**
      * Gets the value of the level property.
+     * 
      */
     public int getLevel() {
         return level;
@@ -162,9 +187,25 @@ public class Character {
 
     /**
      * Sets the value of the level property.
+     * 
      */
     public void setLevel(int value) {
         this.level = value;
+    }
+
+
+    /**
+     * Sets the value of the property.
+     *
+     */
+    public void setField(Field field, String value) {
+        switch (field) {
+            case NAME: setName(value); break;
+            case HEROCLASS: setHeroClass(value); break;
+            case RACE: setRace(value); break;
+            case LEVEL: setLevel(Integer.parseInt(value)); break;
+            case HP: setHp(Integer.parseInt(value)); break;
+        }
     }
 
     @Override
@@ -186,6 +227,7 @@ public class Character {
         Character character = (Character) o;
         return id == character.id;
     }
+
 
     @Override
     public int hashCode() {

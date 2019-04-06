@@ -46,7 +46,7 @@ public class OracleSQLDAO {
             String equalExpression = String.format("%s = '%s'", characterRequest.getField(), characterRequest.getValue());
             query.append(equalExpression);
 
-            if(!characterRequest.equals(characterRequests.get(characterRequests.size() - 1))) {
+            if (!characterRequest.equals(characterRequests.get(characterRequests.size() - 1))) {
                 query.append(" and ");
             }
         }
