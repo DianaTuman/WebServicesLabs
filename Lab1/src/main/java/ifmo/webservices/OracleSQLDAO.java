@@ -21,12 +21,12 @@ public class OracleSQLDAO {
             while (rs.next()) {
                 int id = rs.getInt(Field.fromValue("id").toString());
                 String name = rs.getString(Field.fromValue("name").toString());
-                String publishing = rs.getString(Field.fromValue("heroClass").toString());
-                String author = rs.getString(Field.fromValue("race").toString());
-                int year = rs.getInt(Field.fromValue("level").toString());
-                int pages = rs.getInt(Field.fromValue("hp").toString());
+                String heroclass = rs.getString(Field.fromValue("heroClass").toString());
+                String race = rs.getString(Field.fromValue("race").toString());
+                int level = rs.getInt(Field.fromValue("level").toString());
+                int hp = rs.getInt(Field.fromValue("hp").toString());
 
-                Character character = new Character(author, id, name, pages, publishing, year);
+                Character character = new Character(race, id, name, hp, heroclass, level);
                 characters.add(character);
             }
         } catch (SQLException ex) {
