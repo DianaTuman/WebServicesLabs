@@ -23,7 +23,7 @@ import java.util.Objects;
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="hp" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *         &lt;element name="heroClass" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;element name="level" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="exlevel" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -35,20 +35,20 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "character", propOrder = {
         "race",
-    "id",
-    "name",
+        "id",
+        "name",
         "hp",
         "heroClass",
-        "level"
+        "exlevel"
 })
 public class Character {
-    public Character(String race, int id, String name, int hp, String heroClass, int level) {
-        this.race = race;
+    public Character(String race, int id, String name, int hp, String heroClass, int exlevel) {
         this.id = id;
         this.name = name;
-        this.hp = hp;
         this.heroClass = heroClass;
-        this.level = level;
+        this.race = race;
+        this.exlevel = exlevel;
+        this.hp = hp;
     }
 
     public Character() {
@@ -70,8 +70,8 @@ public class Character {
     @XmlElement(name = "heroClass", required = true)
     protected String heroClass;
 
-    @XmlElement(name = "level", required = true)
-    protected int level;
+    @XmlElement(name = "exlevel", required = true)
+    protected int exlevel;
 
     /**
      * Gets the value of the race property.
@@ -178,19 +178,19 @@ public class Character {
     }
 
     /**
-     * Gets the value of the level property.
+     * Gets the value of the exlevel property.
      * 
      */
-    public int getLevel() {
-        return level;
+    public int getExlevel() {
+        return exlevel;
     }
 
     /**
-     * Sets the value of the level property.
+     * Sets the value of the exlevel property.
      * 
      */
-    public void setLevel(int value) {
-        this.level = value;
+    public void setExlevel(int value) {
+        this.exlevel = value;
     }
 
 
@@ -203,7 +203,7 @@ public class Character {
             case NAME: setName(value); break;
             case HEROCLASS: setHeroClass(value); break;
             case RACE: setRace(value); break;
-            case LEVEL: setLevel(Integer.parseInt(value)); break;
+            case EXLEVEL: setExlevel(Integer.parseInt(value)); break;
             case HP: setHp(Integer.parseInt(value)); break;
         }
     }
@@ -215,7 +215,7 @@ public class Character {
                 ", name='" + name + '\'' +
                 ", heroClass='" + heroClass + '\'' +
                 ", race='" + race + '\'' +
-                ", level=" + level +
+                ", exlevel=" + exlevel +
                 ", hp=" + hp +
                 '}';
     }

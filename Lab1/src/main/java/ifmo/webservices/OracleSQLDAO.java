@@ -23,7 +23,7 @@ public class OracleSQLDAO {
                 String name = rs.getString(Field.fromValue("name").toString());
                 String heroclass = rs.getString(Field.fromValue("heroClass").toString());
                 String race = rs.getString(Field.fromValue("race").toString());
-                int level = rs.getInt(Field.fromValue("level").toString());
+                int level = rs.getInt(Field.fromValue("exlevel").toString());
                 int hp = rs.getInt(Field.fromValue("hp").toString());
 
                 Character character = new Character(race, id, name, hp, heroclass, level);

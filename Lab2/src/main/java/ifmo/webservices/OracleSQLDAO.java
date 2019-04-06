@@ -18,12 +18,12 @@ public class OracleSQLDAO {
             while (rs.next()) {
                 int id = rs.getInt(Field.fromValue("id").toString());
                 String name = rs.getString(Field.fromValue("name").toString());
-                String publishing = rs.getString(Field.fromValue("heroClass").toString());
-                String author = rs.getString(Field.fromValue("race").toString());
-                int year = rs.getInt(Field.fromValue("level").toString());
-                int pages = rs.getInt(Field.fromValue("hp").toString());
+                String heroClass = rs.getString(Field.fromValue("heroClass").toString());
+                String race = rs.getString(Field.fromValue("race").toString());
+                int exlevel = rs.getInt(Field.fromValue("exlevel").toString());
+                int hp = rs.getInt(Field.fromValue("hp").toString());
 
-                Character character = new Character(author, id, name, pages, publishing, year);
+                Character character = new Character(race, id, name, hp, heroClass, exlevel);
                 characters.add(character);
             }
         } catch (SQLException ex) {
@@ -54,12 +54,12 @@ public class OracleSQLDAO {
         int id = -1;
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement pstm = connection.prepareStatement(String.format(
-                    "insert into characters(name, publishing, author, year, pages) " +
+                    "insert into characters(name, heroclass, race, exlevel, hp) " +
                             "values('%s', '%s', '%s', %5d, %5d)",
                     character.getName(),
                     character.getHeroClass(),
                     character.getRace(),
-                    character.getLevel(),
+                    character.getExlevel(),
                     character.getHp()),
                     new String[]{"id"});
 
@@ -67,7 +67,7 @@ public class OracleSQLDAO {
             if (i > 0) {
                 ResultSet rs = pstm.getGeneratedKeys();
                 while (rs.next()) {
-                    id = Integer.parseInt(rs.getString(1));
+                    id = Integer.parseInt(rs.getString(i));
                 }
             }
         } catch (SQLException ex) {
@@ -84,13 +84,13 @@ public class OracleSQLDAO {
         StringBuilder query = new StringBuilder("update characters set ");
 
         for (CharacterFieldValue characterRequest : newValues) {
-            String equalExpression = String.format("%s = '%s'", characterRequest.getField(), characterRequest.getValue());
+            String equalExpression = String.format("%s = '%s'", characterRequest.getField().toString().toUpperCase(), characterRequest.getValue());
             query.append(equalExpression);
 
             if (!characterRequest.equals(newValues.get(newValues.size() - 1))) {
                 query.append(", ");
             } else {
-                query.append("where id = ");
+                query.append("where ID = ");
                 query.append(id);
             }
         }

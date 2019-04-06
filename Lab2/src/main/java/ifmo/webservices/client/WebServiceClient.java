@@ -13,12 +13,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-enum MenuOption {Add, Print, Clear, Find, ShowAll, Exit}
+enum MenuOption {AddCondition, Print, Clear, Find, ShowAll, Add, Delete, Modify, Exit}
 
 public class WebServiceClient {
 
-    private static final String standaloneUrl = "http://namiwave-GP60-2PE:8081/Character8869313413401542356/CharacterService?wsdl";
-    private static final String j2eeUrl = "http://localhost:8082/WebService1/CharacterService?wsdl";
+    private static final String standaloneUrl =
+            "http://namiwave-GP60-2PE:8081/Characters6657624481439661533/CharacterService?wsdl";
 
     private String url;
     private CharacterService characterService;
@@ -61,21 +61,21 @@ public class WebServiceClient {
         }
     }
 
-    private int readOption(BufferedReader in) throws IOException {
+    private int readIntValue(BufferedReader in) throws IOException {
         int option = -1;
 
         String input = in.readLine();
         try {
             option = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            System.err.println("Wrong option");
+            return option;
         }
 
         return option;
     }
 
     private void processOption(BufferedReader in) throws IOException {
-        int option = readOption(in);
+        int option = readIntValue(in);
 
         if (option < 1 || option > MenuOption.values().length) {
             System.err.println("Wrong option");
@@ -85,7 +85,7 @@ public class WebServiceClient {
         MenuOption menuOption = MenuOption.values()[option - 1];
 
         switch (menuOption) {
-            case Add:
+            case AddCondition:
                 addCondition(in);
                 break;
             case Find:
@@ -100,6 +100,15 @@ public class WebServiceClient {
             case ShowAll:
                 showAll();
                 break;
+            case Add:
+                add(in);
+                break;
+            case Delete:
+                delete(in);
+                break;
+            case Modify:
+                modify(in);
+                break;
             case Exit:
                 exit();
                 break;
@@ -108,8 +117,8 @@ public class WebServiceClient {
 
     private String getOptionText(MenuOption menuOption) {
         switch (menuOption) {
-            case Add:
-                return "Add search condition";
+            case AddCondition:
+                return "AddCondition search condition";
             case Find:
                 return "Find results";
             case Print:
@@ -118,6 +127,12 @@ public class WebServiceClient {
                 return "Clear saved conditions";
             case ShowAll:
                 return "Show all characters";
+            case Add:
+                return "Add new character";
+            case Delete:
+                return "Delete character";
+            case Modify:
+                return "Modify character";
             case Exit:
                 return "Exit";
             default:
@@ -133,10 +148,11 @@ public class WebServiceClient {
             System.out.printf("%2d. %s\n", i + 1, fields[i]);
         }
 
-        int field = readOption(in);
+        int field = readIntValue(in);
 
         if (field < 1 || field > fields.length) {
             System.err.println("Wrong option");
+            return;
         }
 
         System.out.println("Print expected field value:");
@@ -187,5 +203,97 @@ public class WebServiceClient {
             System.out.println(character);
         }
         System.out.println("Total characters: " + characters.size());
+    }
+
+    private void add(BufferedReader in) {
+        Character character = new Character();
+        try {
+            Field[] fields = Field.values();
+            for (int i = 0; i < fields.length; i++) {
+                if (fields[i] != Field.ID) {
+                    System.out.printf("Print '%s' value:\n", fields[i]);
+                    character.setField(fields[i], in.readLine());
+                }
+            }
+
+            int id = this.characterService.getCharacterWebServicePort().addCharacter(character);
+            System.out.println("Character added: id = " + id);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private void delete(BufferedReader in) {
+        try {
+            int id = findCharacterById(in);
+            if (id < 0) {
+                return;
+            }
+
+            boolean success = this.characterService.getCharacterWebServicePort().deleteCharacter(id);
+            if (success) {
+                System.out.println("Character deleted");
+            } else {
+                System.out.println("Character deletion failed");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private void modify(BufferedReader in) {
+        try {
+            int id = findCharacterById(in);
+            if (id < 0) {
+                return;
+            }
+
+            List<CharacterFieldValue> newValues = new ArrayList<CharacterFieldValue>();
+
+            Field[] fields = Field.values();
+
+            for (int i = 0; i < fields.length; i++) {
+                if (fields[i] != Field.ID) {
+                    System.out.printf("Print '%s' value (to skip press enter):\n", fields[i]);
+                    String value = in.readLine();
+
+                    if (!value.isEmpty()) {
+                        newValues.add(new CharacterFieldValue(fields[i], value));
+                    }
+                }
+            }
+
+            boolean success = this.characterService.getCharacterWebServicePort().modifyCharacter(id, newValues);
+            if (success) {
+                System.out.println("Character modified");
+            } else {
+                System.out.println("Character modification failed");
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private int findCharacterById(BufferedReader in) throws IOException {
+        System.out.println("Print id:");
+        int id = readIntValue(in);
+
+        if (id < 0) {
+            System.err.println("Wrong id value");
+            return -1;
+        }
+
+        List<Character> characters = this.characterService.getCharacterWebServicePort().getCharacters(
+                new ArrayList<CharacterFieldValue>() {{
+                    add(new CharacterFieldValue(Field.ID, id));
+                }});
+
+        if (characters.size() == 0) {
+            System.err.println("Character with such id was not found");
+            return -1;
+        } else {
+            System.out.println("Character found: " + characters.get(0));
+            return id;
+        }
     }
 }

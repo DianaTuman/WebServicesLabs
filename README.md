@@ -1,13 +1,28 @@
-The following table was created in the Orcale DB.
+This commands should be run in Oracle DB.
 
-```
+
 CREATE TABLE Characters (
-   "ID"         NUMBER PRIMARY KEY,
-   "NAME"       VARCHAR(100),
-   "HEROCLASS" VARCHAR(30)
-   "RACE"     VARCHAR(40),
-   "LEVEL"       NUMBER,
-   "HP"      NUMBER
+   id         NUMBER PRIMARY KEY,
+   name       VARCHAR(100),
+   heroclass      VARCHAR(30),
+   race     VARCHAR(40),
+   exlevel      NUMBER,
+   hp        NUMBER
 );
-```
-Server used: GlassFish 5.
+
+ALTER TABLE Characters
+  ADD (
+    CONSTRAINT characters_pk PRIMARY KEY (id)
+  );
+CREATE SEQUENCE characters_sequence;
+
+
+CREATE OR REPLACE TRIGGER characters_on_insert
+  BEFORE INSERT ON characters
+  FOR EACH ROW
+BEGIN
+  SELECT characters_sequence.nextval
+  INTO :new.id
+  FROM dual;
+END;
+

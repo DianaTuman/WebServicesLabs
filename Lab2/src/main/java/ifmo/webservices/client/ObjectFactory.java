@@ -31,6 +31,12 @@ public class ObjectFactory {
     private final static QName _GetAllCharactersResponse_QNAME = new QName("http://webservices.ifmo/", "getAllCharactersResponse");
     private final static QName _GetCharacters_QNAME = new QName("http://webservices.ifmo/", "getCharacters");
     private final static QName _GetCharactersResponse_QNAME = new QName("http://webservices.ifmo/", "getCharactersResponse");
+    private final static QName _AddCharacter_QNAME = new QName("http://webservices.ifmo/", "addCharacter");
+    private final static QName _AddCharacterResponse_QNAME = new QName("http://webservices.ifmo/", "addCharacterResponse");
+    private final static QName _DeleteCharacter_QNAME = new QName("http://webservices.ifmo/", "deleteCharacter");
+    private final static QName _DeleteCharacterResponse_QNAME = new QName("http://webservices.ifmo/", "deleteCharacterResponse");
+    private final static QName _ModifyCharacter_QNAME = new QName("http://webservices.ifmo/", "modifyCharacter");
+    private final static QName _ModifyCharacterResponse_QNAME = new QName("http://webservices.ifmo/", "modifyCharacterResponse");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: ifmo.webservices
@@ -38,6 +44,55 @@ public class ObjectFactory {
      */
     public ObjectFactory() {
     }
+
+    /**
+     * Create an instance of {@link DeleteCharacter }
+     *
+     */
+    public DeleteCharacter createDeleteCharacter() {
+        return new DeleteCharacter();
+    }
+
+    /**
+     * Create an instance of {@link DeleteCharacterResponse }
+     *
+     */
+    public DeleteCharacterResponse createDeleteCharacterResponse() {
+        return new DeleteCharacterResponse();
+    }
+
+    /**
+     * Create an instance of {@link AddCharacter }
+     *
+     */
+    public AddCharacter createAddCharacter() {
+        return new AddCharacter();
+    }
+
+    /**
+     * Create an instance of {@link AddCharacterResponse }
+     *
+     */
+    public AddCharacterResponse createAddCharacterResponse() {
+        return new AddCharacterResponse();
+    }
+
+    /**
+     * Create an instance of {@link ModifyCharacter }
+     *
+     */
+    public ModifyCharacter createModifyCharacter() {
+        return new ModifyCharacter();
+    }
+
+    /**
+     * Create an instance of {@link ModifyCharacterResponse }
+     *
+     */
+    public ModifyCharacterResponse createModifyCharacterResponse() {
+        return new ModifyCharacterResponse();
+    }
+
 
     /**
      * Create an instance of {@link GetAllCharacters }
@@ -137,6 +192,63 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://webservices.ifmo/", name = "getCharactersResponse")
     public JAXBElement<GetCharactersResponse> createGetCharactersResponse(GetCharactersResponse value) {
         return new JAXBElement<GetCharactersResponse>(_GetCharactersResponse_QNAME, GetCharactersResponse.class, null, value);
+    }
+
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link AddCharacter }{@code >}}
+     *
+     */
+    @XmlElementDecl(namespace = "http://webservices.ifmo/", name = "addCharacter")
+    public JAXBElement<AddCharacter> createAddCharacter(AddCharacter value) {
+        return new JAXBElement<AddCharacter>(_AddCharacter_QNAME, AddCharacter.class, null, value);
+    }
+
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link AddCharacterResponse }{@code >}}
+     *
+     */
+    @XmlElementDecl(namespace = "http://webservices.ifmo/", name = "addCharacterResponse")
+    public JAXBElement<AddCharacterResponse> createAddCharacterResponse(AddCharacterResponse value) {
+        return new JAXBElement<AddCharacterResponse>(_AddCharacterResponse_QNAME, AddCharacterResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DeleteCharacter }{@code >}}
+     *
+     */
+    @XmlElementDecl(namespace = "http://webservices.ifmo/", name = "deleteCharacter")
+    public JAXBElement<DeleteCharacter> createDeleteCharacter(DeleteCharacter value) {
+        return new JAXBElement<DeleteCharacter>(_DeleteCharacter_QNAME, DeleteCharacter.class, null, value);
+    }
+
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DeleteCharacterResponse }{@code >}}
+     *
+     */
+    @XmlElementDecl(namespace = "http://webservices.ifmo/", name = "deleteCharacterResponse")
+    public JAXBElement<DeleteCharacterResponse> createDeleteCharacterResponse(DeleteCharacterResponse value) {
+        return new JAXBElement<DeleteCharacterResponse>(_DeleteCharacterResponse_QNAME, DeleteCharacterResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ModifyCharacter }{@code >}}
+     *
+     */
+    @XmlElementDecl(namespace = "http://webservices.ifmo/", name = "modifyCharacter")
+    public JAXBElement<ModifyCharacter> createModifyCharacter(ModifyCharacter value) {
+        return new JAXBElement<ModifyCharacter>(_ModifyCharacter_QNAME, ModifyCharacter.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ModifyCharacterResponse }{@code >}}
+     *
+     */
+    @XmlElementDecl(namespace = "http://webservices.ifmo/", name = "modifyCharacterResponse")
+    public JAXBElement<ModifyCharacterResponse> createModifyCharacterResponse(ModifyCharacterResponse value) {
+        return new JAXBElement<ModifyCharacterResponse>(_ModifyCharacterResponse_QNAME, ModifyCharacterResponse.class, null, value);
     }
 
 }

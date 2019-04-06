@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;enumeration value="name"/&gt;
  *     &lt;enumeration value="heroClass"/&gt;
  *     &lt;enumeration value="race"/&gt;
- *     &lt;enumeration value="level"/&gt;
+ *     &lt;enumeration value="exlevel"/&gt;
  *     &lt;enumeration value="hp"/&gt;
  *   &lt;/restriction&gt;
  * &lt;/simpleType&gt;
@@ -37,8 +37,8 @@ public enum Field {
     HEROCLASS("heroClass"),
     @XmlEnumValue("race")
     RACE("race"),
-    @XmlEnumValue("level")
-    LEVEL("level"),
+    @XmlEnumValue("exlevel")
+    EXLEVEL("exlevel"),
     @XmlEnumValue("hp")
     HP("hp");
     private final String value;
