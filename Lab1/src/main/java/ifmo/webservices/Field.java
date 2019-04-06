@@ -32,7 +32,7 @@ public enum Field {
     @XmlEnumValue("id")
     ID("id"),
     @XmlEnumValue("name")
-    NAME("name"),gi
+    NAME("name"),
     @XmlEnumValue("heroClass")
     PUBLISHING("heroClass"),
     @XmlEnumValue("race")
