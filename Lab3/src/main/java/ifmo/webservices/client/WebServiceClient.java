@@ -19,8 +19,6 @@ public class WebServiceClient {
 
     private static final String standaloneUrl =
             "http://localhost:8081/Character943981846163911436/CharacterService?wsdl";
-    private static final String j2eeUrl =
-            "http://localhost:8081/Character2974024370712964547/CharacterService?wsdl";
 
     private String url;
     private CharacterService characterService;
@@ -32,7 +30,7 @@ public class WebServiceClient {
     }
 
     public static void main(String[] args) {
-        WebServiceClient client = new WebServiceClient(j2eeUrl);
+        WebServiceClient client = new WebServiceClient(standaloneUrl);
         client.startListening();
     }
 
