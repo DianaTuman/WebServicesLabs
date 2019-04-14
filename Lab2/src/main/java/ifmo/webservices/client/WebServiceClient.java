@@ -18,7 +18,8 @@ enum MenuOption {AddCondition, Print, Clear, Find, ShowAll, Add, Delete, Modify,
 public class WebServiceClient {
 
     private static final String standaloneUrl =
-            "http://namiwave-GP60-2PE:8081/Characters6657624481439661533/CharacterService?wsdl";
+            "http://localhost:8081/Character943981846163911436/CharacterService?wsdl";
+    private static final String j2eeUrl = "http://localhost:8081/Character943981846163911436/CharacterService?wsdl";
 
     private String url;
     private CharacterService characterService;
@@ -30,7 +31,7 @@ public class WebServiceClient {
     }
 
     public static void main(String[] args) throws MalformedURLException {
-        WebServiceClient client = new WebServiceClient(standaloneUrl);
+        WebServiceClient client = new WebServiceClient(j2eeUrl);
         client.startListening();
     }
 
@@ -41,8 +42,8 @@ public class WebServiceClient {
 
             while (true) {
 
-                    printMenu();
-                    processOption(in);
+                printMenu();
+                processOption(in);
             }
 
         } catch (MalformedURLException ex) {

@@ -10,13 +10,6 @@ CREATE TABLE Characters (
    hp        NUMBER
 );
 
-ALTER TABLE Characters
-  ADD (
-    CONSTRAINT characters_pk PRIMARY KEY (id)
-  );
-CREATE SEQUENCE characters_sequence;
-
-
 CREATE OR REPLACE TRIGGER characters_on_insert
   BEFORE INSERT ON characters
   FOR EACH ROW

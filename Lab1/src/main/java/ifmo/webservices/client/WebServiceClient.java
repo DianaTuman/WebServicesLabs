@@ -18,9 +18,9 @@ enum MenuOption {Add, Print, Clear, Find, ShowAll, Exit}
 public class WebServiceClient {
 
     private static final String standaloneUrl =
-            "http://namiwave-GP60-2PE:8081/Characters6657624481439661533/CharacterService?wsdl";
+            "http://localhost:8081/Character943981846163911436/CharacterService?wsdl";
     private static final String j2eeUrl =
-            "http://namiwave-GP60-2PE:8081/Character1032318339582015959/CharacterService?wsdl";
+            "http://localhost:8081/Character943981846163911436/CharacterService?wsdl";
 
     private String url;
     private CharacterService characterService;

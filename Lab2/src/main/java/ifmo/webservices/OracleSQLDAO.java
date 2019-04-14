@@ -7,10 +7,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class OracleSQLDAO {
+    private Connection connection;
+
+    public OracleSQLDAO(Connection connection) {
+        this.connection = connection;
+    }
+
     private List<Character> getCharacters(String query) {
         List<Character> characters = new ArrayList<Character>();
 
-        try (Connection connection = ConnectionUtil.getConnection()) {
+        try {
 
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -26,6 +32,7 @@ public class OracleSQLDAO {
                 Character character = new Character(race, id, name, hp, heroClass, exlevel);
                 characters.add(character);
             }
+            connection.close();
         } catch (SQLException ex) {
             Logger.getLogger(OracleSQLDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -43,7 +50,7 @@ public class OracleSQLDAO {
             String equalExpression = String.format("%s = '%s'", characterRequest.getField(), characterRequest.getValue());
             query.append(equalExpression);
 
-            if(!characterRequest.equals(characterRequests.get(characterRequests.size() - 1))) {
+            if (!characterRequest.equals(characterRequests.get(characterRequests.size() - 1))) {
                 query.append(" and ");
             }
         }
