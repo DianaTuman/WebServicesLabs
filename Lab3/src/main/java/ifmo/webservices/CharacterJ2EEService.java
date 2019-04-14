@@ -5,6 +5,10 @@ import ifmo.webservices.errors.*;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +16,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @WebService(name = "CharacterWebService", serviceName = "CharacterService")
-public class CharacterWebServiceImpl implements CharacterWebService {
+public class CharacterJ2EEService implements CharacterWebService {
 
     @WebMethod(operationName = "getAllCharacters")
     public List<Character> getAllCharacters() throws DatabaseException {
-        OracleSQLDAO dao = new OracleSQLDAO(ConnectionUtil.getConnection());
+        OracleSQLDAO dao = new OracleSQLDAO(getConnection());
         try {
             return dao.getAllCharacters();
         } catch (SQLException e) {
@@ -28,7 +32,7 @@ public class CharacterWebServiceImpl implements CharacterWebService {
     @WebMethod(operationName = "getCharacters")
     public List<Character> getCharacters(@WebParam(name = "conditions") List<CharacterFieldValue> conditions)
             throws DatabaseException {
-        OracleSQLDAO dao = new OracleSQLDAO(ConnectionUtil.getConnection());
+        OracleSQLDAO dao = new OracleSQLDAO(getConnection());
         try {
             return dao.getCharactersByFields(conditions);
         } catch (SQLException e) {
@@ -50,7 +54,7 @@ public class CharacterWebServiceImpl implements CharacterWebService {
         checkExlevel(character.getExlevel());
         checkHp(character.getHp());
 
-        OracleSQLDAO dao = new OracleSQLDAO(ConnectionUtil.getConnection());
+        OracleSQLDAO dao = new OracleSQLDAO(getConnection());
         try {
             return dao.addCharacter(character);
         } catch (SQLException e) {
@@ -87,7 +91,7 @@ public class CharacterWebServiceImpl implements CharacterWebService {
             }
         }
 
-        OracleSQLDAO dao = new OracleSQLDAO(ConnectionUtil.getConnection());
+        OracleSQLDAO dao = new OracleSQLDAO(getConnection());
         try {
             checkExists(dao, id);
             return dao.modifyCharacter(id, newValues);
@@ -99,7 +103,7 @@ public class CharacterWebServiceImpl implements CharacterWebService {
 
     @WebMethod(operationName = "deleteCharacter")
     public boolean deleteCharacter(@WebParam(name = "id") int id) throws CharacterNotFoundException, DatabaseException {
-        OracleSQLDAO dao = new OracleSQLDAO(ConnectionUtil.getConnection());
+        OracleSQLDAO dao = new OracleSQLDAO(getConnection());
         try {
             checkExists(dao, id);
             return dao.deleteCharacter(id);
@@ -173,5 +177,17 @@ public class CharacterWebServiceImpl implements CharacterWebService {
             throw new InvalidExlevelException("Exlevel should be greater than zero",
                     CharacterServiceFault.defaultInstance());
         }
+    }
+
+    private Connection getConnection() {
+        Connection result = null;
+        try {
+            InitialContext ctx = new InitialContext();
+            DataSource dataSource = (DataSource) ctx.lookup("ifmo-oracle");
+            result = dataSource.getConnection();
+        } catch (SQLException | NamingException ex) {
+            Logger.getLogger(CharacterJ2EEService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
 }

@@ -30,19 +30,19 @@ public class CharacterJ2EEService implements CharacterWebService {
 
     @WebMethod(operationName = "addCharacter")
     public int addCharacter(@WebParam(name = "character") Character character) {
-        OracleSQLDAO dao = new OracleSQLDAO(ConnectionUtil.getConnection());
+        OracleSQLDAO dao = new OracleSQLDAO(getConnection());
         return dao.addCharacter(character);
     }
 
     @WebMethod(operationName = "modifyCharacter")
     public boolean modifyCharacter(@WebParam(name = "id") int id, @WebParam(name = "newValues") List<CharacterFieldValue> newValues) {
-        OracleSQLDAO dao = new OracleSQLDAO(ConnectionUtil.getConnection());
+        OracleSQLDAO dao = new OracleSQLDAO(getConnection());
         return dao.modifyCharacter(id, newValues);
     }
 
     @WebMethod(operationName = "deleteCharacter")
     public boolean deleteCharacter(@WebParam(name = "id") int id) {
-        OracleSQLDAO dao = new OracleSQLDAO(ConnectionUtil.getConnection());
+        OracleSQLDAO dao = new OracleSQLDAO(getConnection());
         return dao.deleteCharacter(id);
     }
 

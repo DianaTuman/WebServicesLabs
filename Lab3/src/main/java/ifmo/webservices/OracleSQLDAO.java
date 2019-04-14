@@ -3,30 +3,33 @@ package ifmo.webservices;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class OracleSQLDAO {
-    private List<Character> getCharacters(String query) throws SQLException  {
+
+    private Connection connection;
+
+    public OracleSQLDAO(Connection connection) {
+        this.connection = connection;
+    }
+
+    private List<Character> getCharacters(String query) throws SQLException {
         List<Character> characters = new ArrayList<Character>();
 
-        try (Connection connection = ConnectionUtil.getConnection()) {
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
 
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+            int id = rs.getInt(Field.fromValue("id").toString());
+            String name = rs.getString(Field.fromValue("name").toString());
+            String heroClass = rs.getString(Field.fromValue("heroClass").toString());
+            String race = rs.getString(Field.fromValue("race").toString());
+            int exlevel = rs.getInt(Field.fromValue("exlevel").toString());
+            int hp = rs.getInt(Field.fromValue("hp").toString());
 
-            while (rs.next()) {
-                int id = rs.getInt(Field.fromValue("id").toString());
-                String name = rs.getString(Field.fromValue("name").toString());
-                String heroClass = rs.getString(Field.fromValue("heroClass").toString());
-                String race = rs.getString(Field.fromValue("race").toString());
-                int exlevel = rs.getInt(Field.fromValue("exlevel").toString());
-                int hp = rs.getInt(Field.fromValue("hp").toString());
-
-                Character character = new Character(race, id, name, hp, heroClass, exlevel);
-                characters.add(character);
-            }
+            Character character = new Character(race, id, name, hp, heroClass, exlevel);
+            characters.add(character);
         }
+        connection.close();
         return characters;
     }
 
@@ -41,7 +44,7 @@ public class OracleSQLDAO {
             String equalExpression = String.format("%s = '%s'", characterRequest.getField(), characterRequest.getValue());
             query.append(equalExpression);
 
-            if(!characterRequest.equals(characterRequests.get(characterRequests.size() - 1))) {
+            if (!characterRequest.equals(characterRequests.get(characterRequests.size() - 1))) {
                 query.append(" and ");
             }
         }

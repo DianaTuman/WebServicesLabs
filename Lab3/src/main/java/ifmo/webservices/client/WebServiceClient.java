@@ -9,7 +9,6 @@ import ifmo.webservices.errors.DatabaseException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,9 @@ enum MenuOption {AddCondition, Print, Clear, Find, ShowAll, Add, Delete, Modify,
 public class WebServiceClient {
 
     private static final String standaloneUrl =
-            "http://namiwave-GP60-2PE:8081/Character7334838576781084093/CharacterService?wsdl";
+            "http://localhost:8081/Character943981846163911436/CharacterService?wsdl";
+    private static final String j2eeUrl =
+            "http://localhost:8081/Character2974024370712964547/CharacterService?wsdl";
 
     private String url;
     private CharacterService characterService;
@@ -30,8 +31,8 @@ public class WebServiceClient {
         this.url = serviceUrl;
     }
 
-    public static void main(String[] args){
-        WebServiceClient client = new WebServiceClient(standaloneUrl);
+    public static void main(String[] args) {
+        WebServiceClient client = new WebServiceClient(j2eeUrl);
         client.startListening();
     }
 
@@ -42,8 +43,8 @@ public class WebServiceClient {
 
             while (true) {
 
-                    printMenu();
-                    processOption(in);
+                printMenu();
+                processOption(in);
             }
 
         } catch (Exception ex) {
@@ -187,7 +188,7 @@ public class WebServiceClient {
         System.out.println("Saved conditions cleared");
     }
 
-    private void showAll() throws DatabaseException{
+    private void showAll() throws DatabaseException {
         List<Character> characters = this.characterService.getCharacterWebServicePort().
                 getAllCharacters();
         printCharacters(characters);
