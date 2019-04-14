@@ -19,7 +19,8 @@ public class WebServiceClient {
 
     private static final String standaloneUrl =
             "http://namiwave-GP60-2PE:8081/Characters6657624481439661533/CharacterService?wsdl";
-    private static final String j2eeUrl = "http://localhost:8082/WebService1/CharacterService?wsdl";
+    private static final String j2eeUrl =
+            "http://namiwave-GP60-2PE:8081/Character1032318339582015959/CharacterService?wsdl";
 
     private String url;
     private CharacterService characterService;
@@ -31,7 +32,7 @@ public class WebServiceClient {
     }
 
     public static void main(String[] args) throws MalformedURLException {
-        WebServiceClient client = new WebServiceClient(standaloneUrl);
+        WebServiceClient client = new WebServiceClient(j2eeUrl);
         client.startListening();
     }
 
