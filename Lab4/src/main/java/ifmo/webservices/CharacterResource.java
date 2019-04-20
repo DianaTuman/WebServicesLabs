@@ -34,10 +34,4 @@ public class CharacterResource {
         return dao.getCharactersByFields(conditions);
     }
 
-    @GET
-    public List<Character> getAllCharacters(
-            @QueryParam("all") boolean val) {
-        OracleSQLDAO dao = new OracleSQLDAO(ConnectionUtil.getConnection());
-        return dao.getAllCharacters();
-    }
 }
