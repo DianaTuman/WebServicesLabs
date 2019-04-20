@@ -10,6 +10,8 @@ CREATE TABLE Characters (
    hp        NUMBER
 );
 
+CREATE SEQUENCE characters_sequence;
+
 CREATE OR REPLACE TRIGGER characters_on_insert
   BEFORE INSERT ON characters
   FOR EACH ROW
