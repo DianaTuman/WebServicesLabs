@@ -69,7 +69,7 @@ public interface CharacterWebService {
     @ResponseWrapper(localName = "addCharacterResponse", targetNamespace = "http://webservices.ifmo/", className = "ifmo.webservices.client.AddCharacterResponse")
     public int addCharacter(
             @WebParam(name = "character", targetNamespace = "")
-                    Character character) throws InvalidNameException, InvalidRaceException, InvalidHpException, InvalidExlevelException, DatabaseException;
+                    Character character) throws InvalidNameException, InvalidHeroClassException, InvalidRaceException, InvalidHpException, InvalidExlevelException, DatabaseException;
 
     /**
      * @param id

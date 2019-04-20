@@ -18,7 +18,7 @@ enum MenuOption {AddCondition, Print, Clear, Find, ShowAll, Add, Delete, Modify,
 public class WebServiceClient {
 
     private static final String standaloneUrl =
-            "http://localhost:8081/Character943981846163911436/CharacterService?wsdl";
+            "http://localhost:8081/Character1710968682273406469/CharacterService?wsdl";
 
     private String url;
     private CharacterService characterService;

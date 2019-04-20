@@ -39,7 +39,7 @@ public class CharacterWebServiceImpl implements CharacterWebService {
 
     @WebMethod(operationName = "addCharacter")
     public int addCharacter(@WebParam(name = "character") Character character)
-            throws InvalidNameException,
+            throws InvalidNameException, InvalidHeroClassException,
             InvalidRaceException,
             InvalidHpException,
             InvalidExlevelException, DatabaseException {
@@ -125,9 +125,9 @@ public class CharacterWebServiceImpl implements CharacterWebService {
         }
     }
 
-    protected void checkHeroClass(String heroClass) throws InvalidNameException {
+    protected void checkHeroClass(String heroClass) throws InvalidHeroClassException {
         if (heroClass == null || heroClass.trim().isEmpty()) {
-            throw new InvalidNameException("Character heroClass is not specified",
+            throw new InvalidHeroClassException("Character heroClass is not specified",
                     CharacterServiceFault.defaultInstance());
         }
     }
