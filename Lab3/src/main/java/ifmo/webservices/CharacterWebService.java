@@ -26,7 +26,7 @@ public interface CharacterWebService {
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getAllCharacters", targetNamespace = "http://webservices.ifmo/", className = "ifmo.webservices.client.GetAllCharacters")
     @ResponseWrapper(localName = "getAllCharactersResponse", targetNamespace = "http://webservices.ifmo/", className = "ifmo.webservices.client.GetAllCharactersResponse")
-    public List<Character> getAllCharacters() throws DatabaseException;
+    public List<Character> getAllCharacters() throws DatabaseException, ThrottlingException;
 
     /**
      * @param conditions
@@ -38,7 +38,7 @@ public interface CharacterWebService {
     @ResponseWrapper(localName = "getCharactersResponse", targetNamespace = "http://webservices.ifmo/", className = "ifmo.webservices.client.GetCharactersResponse")
     public List<Character> getCharacters(
             @WebParam(name = "conditions", targetNamespace = "")
-                    List<CharacterFieldValue> conditions) throws DatabaseException;
+                    List<CharacterFieldValue> conditions) throws DatabaseException, ThrottlingException;
 
     ;
 
@@ -55,7 +55,7 @@ public interface CharacterWebService {
             @WebParam(name = "id", targetNamespace = "")
                     int id,
             @WebParam(name = "newValues", targetNamespace = "")
-                    List<CharacterFieldValue> newValues) throws InvalidNameException, InvalidRaceException, InvalidHpException, InvalidExlevelException, CharacterNotFoundException, DatabaseException;
+                    List<CharacterFieldValue> newValues) throws InvalidNameException, InvalidRaceException, InvalidHpException, InvalidExlevelException, CharacterNotFoundException, DatabaseException, ThrottlingException;
 
     ;
 
@@ -69,7 +69,7 @@ public interface CharacterWebService {
     @ResponseWrapper(localName = "addCharacterResponse", targetNamespace = "http://webservices.ifmo/", className = "ifmo.webservices.client.AddCharacterResponse")
     public int addCharacter(
             @WebParam(name = "character", targetNamespace = "")
-                    Character character) throws InvalidNameException, InvalidHeroClassException, InvalidRaceException, InvalidHpException, InvalidExlevelException, DatabaseException;
+                    Character character) throws InvalidNameException, InvalidHeroClassException, InvalidRaceException, InvalidHpException, InvalidExlevelException, DatabaseException, ThrottlingException;
 
     /**
      * @param id
@@ -81,6 +81,6 @@ public interface CharacterWebService {
     @ResponseWrapper(localName = "deleteCharacterResponse", targetNamespace = "http://webservices.ifmo/", className = "ifmo.webservices.client.DeleteCharacterResponse")
     public boolean deleteCharacter(
             @WebParam(name = "id", targetNamespace = "")
-                    int id) throws CharacterNotFoundException, DatabaseException;
+                    int id) throws CharacterNotFoundException, DatabaseException, ThrottlingException;
 
 }

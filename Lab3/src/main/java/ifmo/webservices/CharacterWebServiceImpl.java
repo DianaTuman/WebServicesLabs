@@ -2,6 +2,7 @@ package ifmo.webservices;
 
 import ifmo.webservices.errors.*;
 
+import javax.inject.Singleton;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -12,27 +13,53 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @WebService(name = "CharacterWebService", serviceName = "CharacterService")
+@Singleton
 public class CharacterWebServiceImpl implements CharacterWebService {
+    private final int MAX_REQUESTS_COUNT = 20;
+    private int requestsCount = 0;
+
+    private synchronized void decreaseRequests() {
+        if (requestsCount > 0) {
+            requestsCount--;
+        }
+    }
+
+    private synchronized void increaseRequests() throws ThrottlingException {
+        if (requestsCount == MAX_REQUESTS_COUNT) {
+            throw new ThrottlingException("Maximum requests count of " + MAX_REQUESTS_COUNT + " exceeded",
+                    CharacterServiceFault.defaultInstance());
+        }
+        requestsCount++;
+    }
+
 
     @WebMethod(operationName = "getAllCharacters")
-    public List<Character> getAllCharacters() throws DatabaseException {
+    public List<Character> getAllCharacters() throws DatabaseException, ThrottlingException {
+        increaseRequests();
         OracleSQLDAO dao = new OracleSQLDAO(ConnectionUtil.getConnection());
         try {
-            return dao.getAllCharacters();
+            List<Character> result = dao.getAllCharacters();
+            decreaseRequests();
+            return result;
         } catch (SQLException e) {
             Logger.getLogger(OracleSQLDAO.class.getName()).log(Level.SEVERE, null, e);
+            decreaseRequests();
             throw new DatabaseException(e.getMessage(), CharacterServiceFault.defaultInstance());
         }
     }
 
     @WebMethod(operationName = "getCharacters")
     public List<Character> getCharacters(@WebParam(name = "conditions") List<CharacterFieldValue> conditions)
-            throws DatabaseException {
+            throws DatabaseException, ThrottlingException {
+        increaseRequests();
         OracleSQLDAO dao = new OracleSQLDAO(ConnectionUtil.getConnection());
         try {
-            return dao.getCharactersByFields(conditions);
+            List<Character> result = dao.getCharactersByFields(conditions);
+            decreaseRequests();
+            return result;
         } catch (SQLException e) {
             Logger.getLogger(OracleSQLDAO.class.getName()).log(Level.SEVERE, null, e);
+            decreaseRequests();
             throw new DatabaseException(e.getMessage(), CharacterServiceFault.defaultInstance());
         }
     }
@@ -42,8 +69,8 @@ public class CharacterWebServiceImpl implements CharacterWebService {
             throws InvalidNameException, InvalidHeroClassException,
             InvalidRaceException,
             InvalidHpException,
-            InvalidExlevelException, DatabaseException {
-
+            InvalidExlevelException, DatabaseException, ThrottlingException {
+        increaseRequests();
         checkName(character.getName());
         checkHeroClass(character.getHeroClass());
         checkRace(character.getRace());
@@ -52,9 +79,12 @@ public class CharacterWebServiceImpl implements CharacterWebService {
 
         OracleSQLDAO dao = new OracleSQLDAO(ConnectionUtil.getConnection());
         try {
-            return dao.addCharacter(character);
+            int result = dao.addCharacter(character);
+            decreaseRequests();
+            return result;
         } catch (SQLException e) {
             Logger.getLogger(OracleSQLDAO.class.getName()).log(Level.SEVERE, null, e);
+            decreaseRequests();
             throw new DatabaseException(e.getMessage(), CharacterServiceFault.defaultInstance());
         }
     }
@@ -65,8 +95,8 @@ public class CharacterWebServiceImpl implements CharacterWebService {
             InvalidRaceException,
             InvalidHpException,
             InvalidExlevelException,
-            CharacterNotFoundException, DatabaseException {
-
+            CharacterNotFoundException, DatabaseException, ThrottlingException {
+        increaseRequests();
         for (CharacterFieldValue fieldValue : newValues) {
             switch (fieldValue.getField()) {
                 case NAME:
@@ -90,21 +120,28 @@ public class CharacterWebServiceImpl implements CharacterWebService {
         OracleSQLDAO dao = new OracleSQLDAO(ConnectionUtil.getConnection());
         try {
             checkExists(dao, id);
-            return dao.modifyCharacter(id, newValues);
+            boolean result = dao.modifyCharacter(id, newValues);
+            decreaseRequests();
+            return result;
         } catch (SQLException e) {
             Logger.getLogger(OracleSQLDAO.class.getName()).log(Level.SEVERE, null, e);
+            decreaseRequests();
             throw new DatabaseException(e.getMessage(), CharacterServiceFault.defaultInstance());
         }
     }
 
     @WebMethod(operationName = "deleteCharacter")
-    public boolean deleteCharacter(@WebParam(name = "id") int id) throws CharacterNotFoundException, DatabaseException {
+    public boolean deleteCharacter(@WebParam(name = "id") int id) throws CharacterNotFoundException, DatabaseException, ThrottlingException {
+        increaseRequests();
         OracleSQLDAO dao = new OracleSQLDAO(ConnectionUtil.getConnection());
         try {
             checkExists(dao, id);
-            return dao.deleteCharacter(id);
+            boolean result = dao.deleteCharacter(id);
+            decreaseRequests();
+            return result;
         } catch (SQLException e) {
             Logger.getLogger(OracleSQLDAO.class.getName()).log(Level.SEVERE, null, e);
+            decreaseRequests();
             throw new DatabaseException(e.getMessage(), CharacterServiceFault.defaultInstance());
         }
     }

@@ -5,6 +5,7 @@ import ifmo.webservices.CharacterFieldValue;
 import ifmo.webservices.CharacterService;
 import ifmo.webservices.Field;
 import ifmo.webservices.errors.DatabaseException;
+import ifmo.webservices.errors.ThrottlingException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -72,7 +73,7 @@ public class WebServiceClient {
         return option;
     }
 
-    private void processOption(BufferedReader in) throws IOException, DatabaseException {
+    private void processOption(BufferedReader in) throws IOException, DatabaseException, ThrottlingException {
         int option = readIntValue(in);
 
         if (option < 1 || option > MenuOption.values().length) {
@@ -162,7 +163,7 @@ public class WebServiceClient {
         System.out.println("Condition saved: " + condition);
     }
 
-    private void findResults() throws DatabaseException {
+    private void findResults() throws DatabaseException, ThrottlingException {
         List<Character> characters = this.characterService.getCharacterWebServicePort().
                 getCharacters(this.conditions);
         printCharacters(characters);
@@ -186,7 +187,7 @@ public class WebServiceClient {
         System.out.println("Saved conditions cleared");
     }
 
-    private void showAll() throws DatabaseException {
+    private void showAll() throws DatabaseException, ThrottlingException {
         List<Character> characters = this.characterService.getCharacterWebServicePort().
                 getAllCharacters();
         printCharacters(characters);
