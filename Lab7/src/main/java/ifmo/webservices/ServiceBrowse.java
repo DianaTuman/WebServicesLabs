@@ -181,7 +181,7 @@ public class ServiceBrowse {
         printBindingTemplates(businessService.getBindingTemplates());
     }
 
-    public void printFoundServices(String serviceName) throws Exception {
+    public void findServices(String serviceName) throws Exception {
         FindService fs = new FindService();
         fs.setAuthInfo(token);
         fs.getName().add(new Name());

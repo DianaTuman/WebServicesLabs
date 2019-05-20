@@ -22,7 +22,6 @@ public class JUDDIClient {
 
     private void startListening() {
         this.serviceBrowser = new ServiceBrowse(username, password);
-        this.servicePublish = new ServiceRegister(username, password);
 
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
@@ -99,6 +98,8 @@ public class JUDDIClient {
     }
 
     private void registerService(BufferedReader in) throws IOException {
+        this.servicePublish = new ServiceRegister(username, password);
+
         System.out.println("Print business name:");
         String business = in.readLine();
 
@@ -114,7 +115,7 @@ public class JUDDIClient {
     private void findService(BufferedReader in) throws Exception {
         System.out.println("Print service name:");
         String name = in.readLine();
-        serviceBrowser.printFoundServices(name);
+        serviceBrowser.findServices(name);
     }
 
     private void exit() {
